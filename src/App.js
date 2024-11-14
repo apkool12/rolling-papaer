@@ -1,15 +1,13 @@
-import './App.css';
+import Header from "./Header";
+import AdminPage from "./AdminPage";
 
-function App() {
+const App = () => {
   return (
-    <>
-      <header>
-        hi
-      </header>
-
-      이정민 한승원 박주원 이채혁 우은식 김정현 원동우
-    </>
+    <div>
+      <Header />
+      <AdminPage />
+    </div>
   );
-}
+};
 
 export default App;

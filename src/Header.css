@@ -1,0 +1,73 @@
+.bg-gray-900 {
+  background-color: #1a202c;
+}
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.container {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.font-bold {
+  font-family: "Pen";
+  font-weight: 700;
+}
+
+.bg-blue-500 {
+  background-color: #ffffff;
+}
+
+.hover\:bg-blue-600:hover {
+  background-color: #d1d1d1;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.text-black {
+  color: #000000;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.Login-font {
+  font-family: "Pen";
+  font-size: 1rem;
+}
+
+.rounded {
+  border-radius: 10rem;
+}
+
+.border-none {
+  border: none;
+}

@@ -1,0 +1,10 @@
+@font-face {
+  font-family: "Pen";
+  font-weight: 50;
+  src: url("./font/Pen.TTF") format("truetype");
+}
+@font-face {
+  font-family: "SSS";
+  font-weight: 50;
+  src: url("./font/SSS.ttf") format("truetype");
+}
