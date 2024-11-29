@@ -7,7 +7,6 @@ const AdminPage = () => {
   const [currentTargetName, setCurrentTargetName] = useState("");
   const [message, setMessage] = useState("");
 
-  // 서버로부터 현재 설정된 대상자 이름 가져오기
   useEffect(() => {
     fetch("/api/target-name")
       .then((res) => res.json())
@@ -15,7 +14,6 @@ const AdminPage = () => {
       .catch(() => setMessage("Failed to load current target name"));
   }, []);
 
-  // 대상자 이름 저장 요청
   const handleSave = async () => {
     try {
       const response = await fetch("/api/target-name", {

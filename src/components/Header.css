@@ -71,3 +71,8 @@
 .border-none {
   border: none;
 }
+
+.link {
+  text-decoration: none;
+  color: #ffffff;
+}
