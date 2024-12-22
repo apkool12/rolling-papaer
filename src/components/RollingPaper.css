@@ -193,7 +193,7 @@ html, body {
     position: fixed;
     color: #566eda33;
     font-size: 1em;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 10px rgba(150, 146, 148, 0.13);
     animation: rolling-paper-snowfall linear infinite;
     z-index: 1; /* 배경 뒤로 배치 */
     opacity: 0; /* 낮은 불투명도로 은은한 효과 */

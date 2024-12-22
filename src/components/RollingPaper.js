@@ -25,7 +25,7 @@
         // 눈송이 생성 함수
         const createSnowflakes = useCallback(() => {
             const flakes = [];
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 40; i++) {
                 flakes.push({
                     id: i,
                     top: `${Math.random() * -10}%`, // 화면 상단에서 시작
