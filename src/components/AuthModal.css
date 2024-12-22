@@ -1,0 +1,146 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+    backdrop-filter: blur(8px);
+    z-index: 50;
+}
+
+.modal-content {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    position: relative;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: slideIn 0.4s ease;
+    max-width: 420px;
+    width: 100%;
+}
+
+.modal-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.modal-title {
+    font-family: "SSS";
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.modal-subtitle {
+    font-family: "Pen";
+    font-size: 1rem;
+    color: #6B7280;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    font-family: "Pen";
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: "Pen";
+    transition: all 0.2s ease;
+    background: #F9FAFB;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #6366F1;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.auth-button {
+    width: 100%;
+    padding: 0.875rem;
+    border: none;
+    border-radius: 10px;
+    font-family: "Pen";
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.primary-button {
+    background: #6366F1;
+    color: white;
+}
+
+.primary-button:hover {
+    background: #4F46E5;
+    transform: translateY(-1px);
+}
+
+.secondary-button {
+    background: #EEF2FF;
+    color: #6366F1;
+    margin-top: 0.75rem;
+}
+
+.secondary-button:hover {
+    background: #E0E7FF;
+}
+
+.close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9CA3AF;
+    padding: 0.5rem;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+}
+
+.close-button:hover {
+    background: #F3F4F6;
+    color: #4B5563;
+}
+
+.form-error {
+    color: #DC2626;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    font-family: "Pen";
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { 
+    opacity: 0;
+    transform: translateY(-24px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+        }
+}

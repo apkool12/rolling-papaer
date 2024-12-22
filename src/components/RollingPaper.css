@@ -1,0 +1,266 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* 전체 배경 설정 */
+.rolling-paper-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #163353, #161631, #031022);
+
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* 오로라 효과 */
+.rolling-paper-aurora {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(45deg, 
+            rgba(100, 220, 255, 0.05) 0%, 
+            rgba(156, 231, 255, 0.05) 25%,
+            rgba(205, 240, 255, 0.05) 50%,
+            rgba(156, 231, 255, 0.05) 75%,
+            rgba(100, 220, 255, 0.05) 100%);
+    filter: blur(40px);
+    animation: auroraFlow 15s infinite;
+    pointer-events: none;
+}
+
+@keyframes auroraFlow {
+    0% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-2%) scale(1.02); }
+    100% { transform: translateY(0) scale(1); }
+}
+
+/* 별빛 효과 */
+.rolling-paper-starlight {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(2px 2px at calc(var(--star-x) * 100%) calc(var(--star-y) * 100%),
+        rgba(255, 255, 255, 0.5),
+        transparent);
+    opacity: var(--star-opacity, 0.5);
+}
+
+/* 메인 콘텐츠 래퍼 */
+.rolling-paper-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* 타이틀 */
+.rolling-paper-title-glow h1 {
+    font-family: SSS;
+    font-size: 4.5rem;
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    letter-spacing: 0.2em;
+    text-align: center;
+    animation: rolling-paper-title-glow 5s infinite alternate;
+    text-transform: uppercase;
+    background: linear-gradient(120deg, #ffffff, #a8d8ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+}
+
+.rolling-paper-title-glow h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
+}
+
+@keyframes rolling-paper-title-glow {
+    0% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3),
+                        0 0 20px rgba(156, 231, 255, 0.2),
+                        0 0 30px rgba(100, 220, 255, 0.1);
+    }
+    100% {
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.4),
+                        0 0 25px rgba(156, 231, 255, 0.3),
+                        0 0 35px rgba(100, 220, 255, 0.2);
+    }
+}
+
+/* 서브타이틀 */
+.rolling-paper-main-subtitle {
+    font-family: Pen;
+    font-size: 1.8rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 400;
+    text-align: center;
+    margin: 0 0 4rem 0;
+    letter-spacing: 0.1em;
+    position: relative;
+}
+
+.rolling-paper-main-subtitle::after {
+    content: '❄';
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    animation: snowflakeRotate 5s infinite linear;
+}
+
+/* 버튼 컨테이너 */
+.rolling-paper-button-container {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-top: 3rem;
+}
+
+/* 버튼 스타일 */
+.rolling-paper-read-letter-button,
+.rolling-paper-write-letter-button {
+    padding: 1rem 2.5rem;
+    font-family: Pen;
+    font-size: 1.3rem;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    min-width: 180px;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.rolling-paper-read-letter-button::before,
+.rolling-paper-write-letter-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+/* 버튼 호버 효과 */
+.rolling-paper-read-letter-button:hover,
+.rolling-paper-write-letter-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.rolling-paper-read-letter-button:hover::before,
+.rolling-paper-write-letter-button:hover::before {
+    left: 100%;
+}
+
+/* 눈 효과 */
+.rolling-paper-snowflake {
+    position: fixed;
+    color: #566eda33;
+    font-size: 1em;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: rolling-paper-snowfall linear infinite;
+    z-index: 1; /* 배경 뒤로 배치 */
+    opacity: 0; /* 낮은 불투명도로 은은한 효과 */
+}
+@keyframes rolling-paper-snowfall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 0.3; /* 시작할 때 낮은 불투명도 */
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0.1; /* 끝날 때 더 낮은 불투명도 */
+    }
+}
+
+@keyframes snowflakeRotate {
+    0% { transform: translateX(-50%) rotate(0deg); }
+    100% { transform: translateX(-50%) rotate(360deg); }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .rolling-paper-title-glow h1 {
+        font-size: 3rem;
+    }
+
+    .rolling-paper-main-subtitle {
+        font-size: 1.4rem;
+    }
+
+    .rolling-paper-button-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .rolling-paper-read-letter-button,
+    .rolling-paper-write-letter-button {
+        width: 80%;
+        max-width: 300px;
+    }
+}
+
+/* 눈 파티클 효과 추가 */
+.snow-particle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    filter: blur(1px);
+    animation: snow-fall linear infinite;
+}
+
+@keyframes rolling-paper-snowfall {
+    0% {
+        transform: translateY(-100%) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
