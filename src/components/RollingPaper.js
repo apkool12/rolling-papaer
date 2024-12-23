@@ -99,7 +99,8 @@
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.9, duration: 0.5 }}
                     >
-                        우리들의 추억을 나누는 시간.
+                        {`" 당신은 무언가를 잃거나 누군가를 잃을지도 모른다. "
+                        \n그러나 그것들은 추억에 영원히 저장할 수 있는 것이다.`}
                     </motion.p>
                     <motion.div 
                         className="rolling-paper-button-container"
@@ -108,18 +109,18 @@
                         transition={{ delay: 1.2, duration: 0.5 }}
                     >
                         <motion.button 
-                            className="rolling-paper-read-letter-button"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.9 }}
-                        >
-                            편지 읽기
-                        </motion.button>
-                        <motion.button 
                             className="rolling-paper-write-letter-button"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
                             편지 쓰기
+                        </motion.button>
+                        <motion.button 
+                            className="rolling-paper-read-letter-button"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.9 }}
+                        >
+                            편지 읽기
                         </motion.button>
                     </motion.div>
                 </motion.div>

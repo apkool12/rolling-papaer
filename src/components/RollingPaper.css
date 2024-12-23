@@ -111,7 +111,8 @@ html, body {
 /* 서브타이틀 */
 .rolling-paper-main-subtitle {
     font-family: Pen;
-    font-size: 1.8rem;
+    font-size: 1.2rem;
+    white-space: pre-line;
     color: rgba(255, 255, 255, 0.9);
     font-weight: 400;
     text-align: center;
@@ -136,7 +137,7 @@ html, body {
     display: flex;
     justify-content: center;
     gap: 2.5rem;
-    margin-top: 3rem;
+    margin-top: 1rem;
 }
 
 /* 버튼 스타일 */
