@@ -62,7 +62,7 @@ const Header = () => {
           {isLoggedIn ? (
             <div className="auth-status">
               <div className="user-profile">
-                <span className="user-email">{user.nickname}</span>
+                <span className="user-name">{user.nickname}</span>
                 <button 
                   className="auth-button outline logout" 
                   onClick={handleLogout}

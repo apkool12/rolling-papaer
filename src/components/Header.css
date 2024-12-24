@@ -1,10 +1,10 @@
 .header {
-  background-color: #111827;
-  padding: 0.25rem 0;
+  background: linear-gradient(to right, rgba(22, 51, 83, 0.95), rgba(22, 22, 49, 0.95));
+  padding: 0.5rem 0;
   position: sticky;
   top: 0;
   z-index: 40;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .header-container {
@@ -14,19 +14,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .logo {
   font-family: "SSS";
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: white;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: all 0.3s ease;
+  background: linear-gradient(120deg, #ffffff, #a8d8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
 }
 
 .logo:hover {
-  color: #E5E7EB;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.4),
+               0 0 25px rgba(156, 231, 255, 0.3);
 }
 
 .nav-menu {
@@ -35,141 +41,129 @@
   gap: 1.5rem;
 }
 
-.auth-buttons {
-  display: flex;
-  gap: 3rem;
-}
-
-.auth-button {
-  font-family: "Pen";
-  padding: 0.625rem 2.5rem;  /* 가로 패딩만 2.5rem으로 증가 */
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 100px;  /* 최소 가로 길이 설정 */
-  text-align: center;  /* 텍스트 중앙 정렬 */
-}
-
-.auth-button.outline {
-  background: transparent;
-  border: 1.5px solid #6366f1;
-  color: #6366F1;
-}
-
-.auth-button.outline:hover {
-  background: #EEF2FF;
-  transform: translateY(-1px);
-}
-
-.auth-button.solid {
-  padding: 1rem 2rem;
-  background: #6366F1;
-  border: none;
-  color: white;
-}
-
-.auth-button.solid:hover {
-  background: #4F46E5;
-  transform: translateY(-1px);
-}
-
-.user-email {
-  font-family: "Pen";
-  color: #E5E7EB;
-  font-size: 0.875rem;
-}
-
 .auth-status {
   display: flex;
   align-items: center;
   gap: 1.25rem;
 }
 
+.auth-buttons {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.auth-button {
+  font-family: "Pen";
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  min-width: 120px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-button.outline {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.auth-button.solid {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  backdrop-filter: blur(10px);
+}
+
+.auth-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.auth-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.auth-button:hover::before {
+  left: 100%;
+}
+
+.auth-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
 .user-profile {
   display: flex;
   align-items: center;
-  gap: 3rem;
+  gap: 2rem;
   animation: slideInLeft 0.5s ease;
+  background: rgba(252, 252, 252, 0.1);
+  padding: 0.5rem 2rem;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
 }
 
-.user-email {
+.user-name {
   font-family: "Pen";
+  white-space: nowrap;
   color: #E5E7EB;
+  justify-content: center;
   font-size: 1rem;
   opacity: 0;
   animation: fadeIn 0.5s ease forwards;
   animation-delay: 0.2s;
+  position: relative;
+}
+
+.user-name::after {
+  content: '❄';
+  position: absolute;
+  right: -1.5rem;
+  top: 8%;
+  transform: translateY(-50%);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  animation: snowflakeRotate 5s infinite linear;
 }
 
 .auth-button.logout {
   opacity: 0;
   animation: fadeIn 0.5s ease forwards;
   animation-delay: 0.3s;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.6rem 1.5rem;
+  min-width: auto;
 }
 
-.auth-buttons {
-  display: flex;
-  gap: 1.25rem;
+@keyframes snowflakeRotate {
+  0% { transform: translateY(-50%) rotate(0deg); }
+  100% { transform: translateY(-50%) rotate(360deg); }
 }
 
-.auth-button {
-  font-family: "Pen";
-  padding: 0.625rem 2.5rem;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 120px;
-  text-align: center;
-  animation: fadeIn 0.3s ease;
-}
-
-
-@media (max-width: 640px) {
-  .header-container {
-    padding: 0 1rem;
-  }
-
-  .auth-buttons {
-    gap: 0.5rem;
-  }
-
-  .auth-button {
-    padding: 0.5rem 1rem;
-  }
-  @keyframes slideInLeft {
-  from {
-    transform: translateX(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes scaleUp {
-  from {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
 @keyframes slideInLeft {
   from {
     transform: translateX(-20px);
@@ -190,14 +184,22 @@
   }
 }
 
-@keyframes scaleUp {
-  from {
-    transform: scale(0.9);
-    opacity: 0;
+@media (max-width: 640px) {
+  .header-container {
+    padding: 0 1rem;
   }
-  to {
-    transform: scale(1);
-    opacity: 1;
+
+  .auth-buttons {
+    gap: 0.8rem;
   }
-}
+
+  .auth-button {
+    padding: 0.6rem 1.2rem;
+    min-width: 100px;
+  }
+
+  .user-profile {
+    padding: 0.4rem 1rem;
+    gap: 1rem;
+  }
 }

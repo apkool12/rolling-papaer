@@ -1,12 +1,14 @@
     import React, { useEffect, useState, useCallback } from 'react';
     import { motion } from 'framer-motion';
+    import { WriteModal, ReadModal } from './RollingPaperModal';
     import './RollingPaper.css';
 
     const RollingPaper = () => {
         const [snowflakes, setSnowflakes] = useState([]);
         const [stars, setStars] = useState([]);
+        const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+        const [isReadModalOpen, setIsReadModalOpen] = useState(false);
 
-        // 별 생성 함수
         const createStars = useCallback(() => {
             const newStars = [];
             for (let i = 0; i < 50; i++) {
@@ -22,7 +24,6 @@
             setStars(newStars);
         }, []);
 
-        // 눈송이 생성 함수
         const createSnowflakes = useCallback(() => {
             const flakes = [];
             for (let i = 0; i < 40; i++) {
@@ -110,6 +111,7 @@
                     >
                         <motion.button 
                             className="rolling-paper-write-letter-button"
+                            onClick={() => setIsWriteModalOpen(true)}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
@@ -117,11 +119,20 @@
                         </motion.button>
                         <motion.button 
                             className="rolling-paper-read-letter-button"
+                            onClick={() => setIsReadModalOpen(true)}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.9 }}
                         >
                             편지 읽기
                         </motion.button>
+                        <WriteModal 
+                            isOpen={isWriteModalOpen} 
+                            onClose={() => setIsWriteModalOpen(false)} 
+                        />
+                        <ReadModal 
+                            isOpen={isReadModalOpen} 
+                            onClose={() => setIsReadModalOpen(false)} 
+                        />
                     </motion.div>
                 </motion.div>
             </motion.div>

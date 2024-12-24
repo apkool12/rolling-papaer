@@ -19,7 +19,6 @@ const AuthModal = ({ isLogin, onClose, onSubmit }) => {
             ...prev,
             [name]: value
         }));
-        // Clear error when user starts typing
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
@@ -30,12 +29,6 @@ const AuthModal = ({ isLogin, onClose, onSubmit }) => {
 
     const validateForm = () => {
         const newErrors = {};
-        
-        if (!formData.email) {
-            newErrors.email = '이메일을 입력해주세요';
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = '올바른 이메일 형식이 아닙니다';
-        }
         
         if (!formData.password) {
             newErrors.password = '비밀번호를 입력해주세요';
@@ -84,17 +77,20 @@ const AuthModal = ({ isLogin, onClose, onSubmit }) => {
                 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label className="form-label">이메일</label>
+                        <label className="form-label">이름 입력</label>
                         <input
-                            type="email"
-                            name="email"
+                            type="text"
+                            name="nickname"
                             className="form-input"
-                            placeholder="이메일을 입력해주세요"
-                            value={formData.email}
+                            placeholder="이름을 입력해주세요"
+                            value={formData.nickname}
                             onChange={handleChange}
                         />
-                        {errors.email && <p className="form-error">{errors.email}</p>}
+                        {errors.nickname && (
+                            <p className="form-error">{errors.nickname}</p>
+                        )}
                     </div>
+
 
                     <div className="form-group">
                         <label className="form-label">비밀번호</label>
@@ -126,22 +122,6 @@ const AuthModal = ({ isLogin, onClose, onSubmit }) => {
                         </div>
                     )}
                     
-                    {!isLogin && (
-                        <div className="form-group">
-                            <label className="form-label">이름 설정</label>
-                            <input
-                                type="text"
-                                name="nickname"
-                                className="form-input"
-                                placeholder="이름을 설정해주세요"
-                                value={formData.nickname}
-                                onChange={handleChange}
-                            />
-                            {errors.nickname && (
-                                <p className="form-error">{errors.nickname}</p>
-                            )}
-                        </div>
-                    )}
 
                     <button type="submit" className="auth-button primary-button">
                         {isLogin ? '로그인' : '회원가입'}
