@@ -112,6 +112,7 @@ html, body {
 .rolling-paper-main-subtitle {
     font-family: Pen;
     font-size: 1.2rem;
+    line-height: 0.7rem;
     white-space: pre-line;
     color: rgba(255, 255, 255, 0.9);
     font-weight: 400;

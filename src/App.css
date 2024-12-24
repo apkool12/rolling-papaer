@@ -8,3 +8,10 @@
   font-weight: 50;
   src: url("./font/SSS.ttf") format("truetype");
   }
+
+body {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none
+}
