@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: center;
     animation: fadeIn 0.3s ease;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(15px);
     z-index: 50;
 }
 

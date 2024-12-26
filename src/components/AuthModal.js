@@ -100,6 +100,7 @@ const AuthModal = ({ isLogin, onClose, onSubmit, onLoginSuccess }) => {
           localStorage.setItem("userNickname", formData.nickname);
         }
       } catch (error) {
+        alert(error.response?.data || error.message)
         console.error(error.response?.data || error.message);
         setErrors({ general: "오류가 발생했습니다. 다시 시도해주세요." });
       }

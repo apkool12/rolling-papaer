@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AuthModal from "./AuthModal";
 import "./Header.css";
@@ -13,19 +13,30 @@ const Header = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const storedLoginStatus = localStorage.getItem("isLoggedIn");
+    const storedNickname = localStorage.getItem("userNickname");
+    
+    if (storedLoginStatus === "true" && storedNickname) {
+      setIsLoggedIn(true);
+      setUser({ nickname: storedNickname });
+    }
+  }, []);
+
   const handleLoginSuccess = (userData) => {
     setIsLoggedIn(true);
     setUser({ nickname: userData.nickname });
     setIsLoggingIn(false);
     setError(null);
+    
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userNickname", userData.nickname);
   };
 
-  // 모달 닫기
   const handleModalClose = () => {
     setModalConfig({ ...modalConfig, isOpen: false });
   };
 
-  // 로그인/회원가입 요청 처리
   const handleAuthSubmit = async (data) => {
     if (data.type === "login") {
       setModalConfig({ isOpen: true, isLogin: true });
@@ -38,9 +49,8 @@ const Header = () => {
 
     try {
       setIsLoggingIn(true);
-      setError(null); // 로그인 오류 초기화
+      setError(null);
 
-      // 실제 API 요청을 보내는 부분
       const response = await fetch(
         "http://localhost:8000/api/accounts/login/",
         {
@@ -61,24 +71,25 @@ const Header = () => {
         throw new Error(result.error || "로그인 실패");
       }
 
-      // 로그인 성공
-      setIsLoggedIn(true);
-      setUser({ nickname: result.nickname }); // 로그인한 사용자 정보 설정
-      handleModalClose(); // 로그인 후 모달 닫기
+      handleLoginSuccess({ nickname: result.nickname });
+      handleModalClose();
     } catch (error) {
       console.error("Auth error:", error);
-      setError(error.message); // 로그인 오류 메시지 표시
+      setError(error.message);
     } finally {
       setIsLoggingIn(false);
     }
   };
 
-  // 로그아웃 처리
   const handleLogout = async () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 300));
-      setIsLoggedIn(false); // 로그아웃 후 로그인 상태 변경
-      setUser(null); // 사용자 정보 초기화
+      setIsLoggedIn(false);
+      setUser(null);
+      
+      // 로그아웃 시 로컬스토리지 데이터 삭제
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userNickname");
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -95,7 +106,7 @@ const Header = () => {
           {isLoggedIn ? (
             <div className="auth-status">
               <div className="user-profile">
-                <span className="user-name">{user.nickname}</span>
+                <span className="user-name">{user?.nickname}</span>
                 <button
                   className="auth-button outline logout"
                   onClick={handleLogout}

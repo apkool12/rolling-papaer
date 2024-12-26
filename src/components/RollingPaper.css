@@ -54,7 +54,6 @@ html, body {
     opacity: var(--star-opacity, 0.5);
 }
 
-/* 메인 콘텐츠 래퍼 */
 .rolling-paper-content-wrapper {
     display: flex;
     flex-direction: column;
@@ -67,7 +66,6 @@ html, body {
     z-index: 2;
 }
 
-/* 타이틀 */
 .rolling-paper-title-glow h1 {
     font-family: SSS;
     font-size: 4.5rem;
@@ -82,6 +80,7 @@ html, body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     position: relative;
+    transform: translateY(-70px);
 }
 
 .rolling-paper-title-glow h1::after {
@@ -108,7 +107,6 @@ html, body {
     }
 }
 
-/* 서브타이틀 */
 .rolling-paper-main-subtitle {
     font-family: Pen;
     font-size: 1.2rem;
@@ -117,7 +115,8 @@ html, body {
     color: rgba(255, 255, 255, 0.9);
     font-weight: 400;
     text-align: center;
-    margin: 0 0 4rem 0;
+    margin: 0 0 2rem 0;
+    transform: translateY(-70px);
     letter-spacing: 0.1em;
     position: relative;
 }
@@ -133,15 +132,14 @@ html, body {
     animation: snowflakeRotate 5s infinite linear;
 }
 
-/* 버튼 컨테이너 */
 .rolling-paper-button-container {
     display: flex;
     justify-content: center;
     gap: 2.5rem;
-    margin-top: 1rem;
+    margin-top: 2rem;
+
 }
 
-/* 버튼 스타일 */
 .rolling-paper-read-letter-button,
 .rolling-paper-write-letter-button {
     padding: 1rem 2.5rem;
@@ -158,6 +156,7 @@ html, body {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    
 }
 
 .rolling-paper-read-letter-button::before,
@@ -177,7 +176,6 @@ html, body {
     transition: 0.5s;
 }
 
-/* 버튼 호버 효과 */
 .rolling-paper-read-letter-button:hover,
 .rolling-paper-write-letter-button:hover {
     transform: translateY(-3px);
@@ -216,7 +214,6 @@ html, body {
     100% { transform: translateX(-50%) rotate(360deg); }
 }
 
-/* 반응형 디자인 */
 @media (max-width: 768px) {
     .rolling-paper-title-glow h1 {
         font-size: 3rem;
@@ -239,7 +236,6 @@ html, body {
     }
 }
 
-/* 눈 파티클 효과 추가 */
 .snow-particle {
     position: fixed;
     width: 4px;

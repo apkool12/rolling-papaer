@@ -4,8 +4,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(22, 19, 49, 0.8);
-    backdrop-filter: blur(8px);
+    background: rgba(16, 14, 37, 0.7);
+    backdrop-filter: blur(30px);
     display: flex;
     justify-content: center;
     align-items: center;
