@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-
+import { WriteModal } from "./RollingPaperModal";
+import CustomAlert from "./CustomAlert";
 import "./Home.css";
 import "../App.css";
-
-import CustomAlert from "./CustomAlert";
 
 const Home = () => {
   const [particles, setParticles] = useState([]);
   const [snowflakes, setSnowflakes] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleRollingPaperClick = () => {
     if (!localStorage.getItem("isLoggedIn")) {
       setShowAlert(true);
       return;
     }
     navigate("/RollingPaper");
   };
-
+  
   useEffect(() => {
     const createParticles = () => {
       const items = [];
@@ -129,13 +129,14 @@ const Home = () => {
           <div className="button-container">
             <motion.button
               className="start-button"
-              onClick={handleClick}
+              onClick={handleRollingPaperClick}
               whileHover={{
                 scale: 1.05,
                 boxShadow:
                   "0 8px 12px rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 255, 255, 0.3)",
               }}
               whileTap={{ scale: 0.95 }}
+              style={{ marginRight: "1rem" }}
             >
               Start
             </motion.button>
@@ -147,6 +148,11 @@ const Home = () => {
         message="로그인 후 접속 가능합니다."
         onClose={() => setShowAlert(false)}
         type="info"
+      />
+      <WriteModal
+        isOpen={isWriteModalOpen}
+        onClose={() => setIsWriteModalOpen(false)}
+        userNickname={localStorage.getItem("userNickname")}
       />
     </motion.div>
   );

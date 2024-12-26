@@ -8,6 +8,7 @@
         const [stars, setStars] = useState([]);
         const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
         const [isReadModalOpen, setIsReadModalOpen] = useState(false);
+        
 
         const createStars = useCallback(() => {
             const newStars = [];

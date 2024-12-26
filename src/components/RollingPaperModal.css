@@ -216,6 +216,39 @@
     transform: translateX(-5px);
 }
 
+.delete-button {
+    background-color: rgb(192, 150, 150);
+    color: white;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 89%;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  .delete-button:hover {
+    background-color: rgb(189, 71, 71);
+  }
+  
+select.form-input {
+    padding: 0.8rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    font-family: Pen;
+    font-size: 1rem;
+    cursor: pointer;
+}
+select.form-input option {
+    background: rgba(16, 14, 37, 0.9);
+    border-radius: 15px;
+    color: white;
+}
+
 @media (max-width: 768px) {
     .card-modal-container {
         width: 95%;

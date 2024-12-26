@@ -198,6 +198,7 @@ html, body {
     z-index: 1; /* 배경 뒤로 배치 */
     opacity: 0; /* 낮은 불투명도로 은은한 효과 */
 }
+
 @keyframes rolling-paper-snowfall {
     0% {
         transform: translateY(-10vh) rotate(0deg);

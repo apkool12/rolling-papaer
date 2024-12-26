@@ -1,21 +1,93 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
+import { AnimatePresence, motion } from "framer-motion";
 import "./RollingPaperModal.css";
 
-export const WriteModal = ({ isOpen, onClose, userNickname }) => {
+// WriteModal 컴포넌트 (편지 작성)
+export const WriteModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     isAnonymous: true,
     content: "",
+    recipient: "",
   });
 
-  const handleSubmit = (e) => {
+  const recipients = ["우은식", "이정민", "한승원", "원동우", "김정현", "박주원"];
+  const [userNickname, setUserNickname] = useState(localStorage.getItem("userNickname"));
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
+
+  useEffect(() => {
+    const storedNickname = localStorage.getItem("userNickname");
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
+    setUserNickname(storedNickname);
+    setIsLoggedIn(storedIsLoggedIn);
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.recipient) {
+      alert("수신인을 선택해주세요.");
+      return;
+    }
+
+    if (!formData.content) {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
+    let author;
+    if (formData.isAnonymous) {
+      author = "익명"; // 익명으로 보낼 때는 "익명" 표시
+    } else {
+      if (!isLoggedIn || !userNickname) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+      author = userNickname;
+    }
+
     const submitData = {
-      author: formData.isAnonymous ? "익명" : userNickname,
-      content: formData.content,
-      isAnonymous: formData.isAnonymous,
+      author: author,
+      content: formData.content.trim(),
+      recipient: formData.recipient,
+      is_anonymous: formData.isAnonymous,
     };
-    console.log("Form submitted:", submitData);
+
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      };
+
+      const response = await axios.post(
+        "http://localhost:8000/api/letters/",
+        submitData,
+        config
+      );
+
+      console.log("Form submitted:", response.data);
+      alert("편지가 성공적으로 전송되었습니다!");
+      onClose();
+
+      setFormData({
+        isAnonymous: true,
+        content: "",
+        recipient: "",
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error.response?.data || error.message);
+      let errorMessage = "편지 전송 중 오류가 발생했습니다.";
+
+      if (error.response?.data) {
+        const serverErrors = error.response.data;
+        errorMessage = Object.entries(serverErrors)
+          .map(([field, errors]) => `${field}: ${errors.join(', ')}`)
+          .join('\n');
+      }
+
+      alert(errorMessage);
+    }
   };
 
   return (
@@ -43,36 +115,43 @@ export const WriteModal = ({ isOpen, onClose, userNickname }) => {
                 <div className="author-type-container">
                   <button
                     type="button"
-                    className={`author-type-button ${
-                      formData.isAnonymous ? "active" : ""
-                    }`}
-                    onClick={() =>
-                      setFormData({ ...formData, isAnonymous: true })
-                    }
+                    className={`author-type-button ${formData.isAnonymous ? "active" : ""}`}
+                    onClick={() => setFormData({ ...formData, isAnonymous: true })}
                   >
                     익명
                   </button>
                   <button
                     type="button"
-                    className={`author-type-button ${
-                      !formData.isAnonymous ? "active" : ""
-                    }`}
-                    onClick={() =>
-                      setFormData({ ...formData, isAnonymous: false })
-                    }
+                    className={`author-type-button ${!formData.isAnonymous ? "active" : ""}`}
+                    onClick={() => setFormData({ ...formData, isAnonymous: false })}
                   >
                     이름
                   </button>
                 </div>
               </div>
               <div className="form-group">
+                <label className="form-label">받는 사람</label>
+                <select
+                  className="form-input"
+                  value={formData.recipient}
+                  onChange={(e) => setFormData({ ...formData, recipient: e.target.value })}
+                >
+                  <option value="" disabled>
+                    편지를 보낼 대상을 선택하세요
+                  </option>
+                  {recipients.map((name, index) => (
+                    <option key={index} value={name}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
                 <label className="form-label">내용</label>
                 <textarea
                   className="form-input form-textarea"
                   value={formData.content}
-                  onChange={(e) =>
-                    setFormData({ ...formData, content: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                   placeholder="2024년 힘차게도 달린 우리들 수고많았다"
                 />
               </div>
@@ -89,48 +168,53 @@ export const WriteModal = ({ isOpen, onClose, userNickname }) => {
 
 export const ReadModal = ({ isOpen, onClose }) => {
   const [selectedLetter, setSelectedLetter] = useState(null);
+  const [letters, setLetters] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [userNickname, setUserNickname] = useState(localStorage.getItem("userNickname"));
 
-  // 임시 데이터
-  const letters = [
-    {
-      id: 1,
-      author: "익명",
-      content:
-        "새로운 출발을 축하드립니다. 앞으로도 좋은 일만 가득하시길 바랍니다. 항상 건강하시고 행복하세요!",
-    },
-    {
-      id: 2,
-      author: "김철수",
-      content:
-        "함께한 시간이 정말 즐거웠습니다. 앞으로도 더 멋진 일들이 기다리고 있을 거예요. 응원합니다!",
-    },
-    {
-      id: 3,
-      author: "김철수",
-      content:
-        "함께한 시간이 정말 즐거웠습니다. 앞으로도 더 멋진 일들이 기다리고 있을 거예요. 응원합니다!",
-    },
-    {
-      id: 4,
-      author: "김철수",
-      content:
-        "함께한 시간이 정말 즐거웠습니다. 앞으로도 더 멋진 일들이 기다리고 있을 거예요. 응원합니다!",
-    },
-    {
-      id: 5,
-      author: "김철수",
-      content:
-        "함께한 시간이 정말 즐거웠습니다. 앞으로도 더 멋진 일들이 기다리고 있을 거예요. 응원합니다!",
-    },
-    {
-      id: 6,
-      author: "김철수",
-      content:
-        "함께한 시간이 정말 즐거웠습니다. 앞으로도 더 멋진 일들이 기다리고 있을 거예요. 응원합니다!",
-    },
-  ];
+  useEffect(() => {
+    const storedNickname = localStorage.getItem("userNickname");
+    setUserNickname(storedNickname);
+  }, []);
+
+  // useCallback을 사용하여 fetchLetters를 memoize
+  const fetchLetters = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("http://localhost:8000/api/letters/");
+      // 수신자별로 필터링: 본인이 수신자인 편지만 보여주기
+      const filteredLetters = response.data.filter(letter => letter.recipient === userNickname || letter.is_anonymous);
+      setLetters(filteredLetters);
+      setError(null);
+    } catch (error) {
+      console.error("Error fetching letters:", error);
+      setError("편지를 불러오는데 실패했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  }, [userNickname]); // userNickname이 변경될 때마다 재실행
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchLetters(); // 수신자에 맞는 편지를 불러오기
+    }
+  }, [isOpen, fetchLetters]); // isOpen 또는 fetchLetters가 변경될 때마다 실행
 
   const closeLetterDetail = () => setSelectedLetter(null);
+
+  // 편지 삭제 핸들러
+  const handleDeleteLetter = async (letterId) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/letters/${letterId}/`);
+      alert("편지가 삭제되었습니다.");
+      setLetters((prevLetters) => prevLetters.filter((letter) => letter.id !== letterId));
+      setSelectedLetter(null); // 삭제 후 상세 보기 창 닫기
+    } catch (error) {
+      console.error("Error deleting letter:", error);
+      alert("편지 삭제에 실패했습니다.");
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -153,7 +237,15 @@ export const ReadModal = ({ isOpen, onClose }) => {
             <h2 className="card-modal-title">편지 읽기</h2>
 
             <AnimatePresence mode="wait">
-              {selectedLetter ? (
+              {loading ? (
+                <div style={{ color: 'white', textAlign: 'center', padding: '2rem' }}>
+                  편지를 불러오는 중...
+                </div>
+              ) : error ? (
+                <div style={{ color: 'white', textAlign: 'center', padding: '2rem' }}>
+                  {error}
+                </div>
+              ) : selectedLetter ? (
                 <motion.div
                   className="letter-detail"
                   initial={{ opacity: 0, y: 20 }}
@@ -171,6 +263,16 @@ export const ReadModal = ({ isOpen, onClose }) => {
                     <div className="letter-paper-content">
                       {selectedLetter.content}
                     </div>
+                    <div className="letter-paper-footer" style={{ marginTop: '1rem', textAlign: 'right', color: '#666' }}>
+                      {new Date(selectedLetter.created_at).toLocaleDateString()}
+                    </div>
+                    {/* 편지 삭제 버튼 추가 */}
+                    <button
+                      className="delete-button"
+                      onClick={() => handleDeleteLetter(selectedLetter.id)}
+                    >
+                      삭제
+                    </button>
                   </div>
                 </motion.div>
               ) : (

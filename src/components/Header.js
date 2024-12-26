@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import AuthModal from "./AuthModal";
 import "./Header.css";
 
@@ -12,6 +13,7 @@ const Header = () => {
   const [user, setUser] = useState(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [error, setError] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const storedLoginStatus = localStorage.getItem("isLoggedIn");
@@ -21,6 +23,17 @@ const Header = () => {
       setIsLoggedIn(true);
       setUser({ nickname: storedNickname });
     }
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const dropdown = document.querySelector('.dropdown-container');
+      if (dropdown && !dropdown.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleLoginSuccess = (userData) => {
@@ -35,6 +48,12 @@ const Header = () => {
 
   const handleModalClose = () => {
     setModalConfig({ ...modalConfig, isOpen: false });
+  };
+
+  const navigate = useNavigate();
+
+  const handleHome = () => {
+    navigate(`/`);
   };
 
   const handleAuthSubmit = async (data) => {
@@ -103,19 +122,53 @@ const Header = () => {
         </Link>
 
         <nav className="nav-menu">
-          {isLoggedIn ? (
-            <div className="auth-status">
-              <div className="user-profile">
-                <span className="user-name">{user?.nickname}</span>
-                <button
-                  className="auth-button outline logout"
-                  onClick={handleLogout}
+        {isLoggedIn ? (
+          <div className="auth-status">
+            <div className="user-profile">
+              <span className="user-name">{user?.nickname}</span>
+              <div className="dropdown-container">
+                <button 
+                  className="dropdown-toggle"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  aria-label="메뉴"
                 >
-                  로그아웃
+                  메뉴
                 </button>
+                
+                <AnimatePresence>
+                  {isDropdownOpen && (
+                    <motion.div 
+                      className="dropdown-menu"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <button className="dropdown-item">
+                        <span className="icon">💌</span>
+                        내가 보낸 메시지
+                      </button>
+                      <button className="dropdown-item">
+                        <span className="icon">🔔</span>
+                        알림
+                      </button>
+                      <div className="dropdown-divider" />
+                      <button className="dropdown-item" 
+                      onClick={() => { handleLogout();
+                          setIsDropdownOpen(false);
+                          handleHome();
+                        }}
+                      >
+                        <span className="icon">🚪</span>
+                        로그아웃
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
-          ) : (
+          </div>
+        ) : (
             <div className="auth-buttons">
               <button
                 className="auth-button outline"
