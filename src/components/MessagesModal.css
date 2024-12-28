@@ -286,3 +286,31 @@
     padding: 1rem;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .messages-modal-container {
+    width: 95%;
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .messages-modal-title {
+    font-size: 1.2rem;
+  }
+
+  .message-card {
+    padding: 0.8rem;
+  }
+
+  .message-recipient {
+    font-size: 0.9rem;
+  }
+
+  .message-content {
+    font-size: 0.9rem;
+  }
+
+  .message-date {
+    font-size: 0.75rem;
+  }
+}

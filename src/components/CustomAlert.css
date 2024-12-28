@@ -85,3 +85,26 @@
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
+
+@media (max-width: 480px) {
+  .alert-container {
+    padding: 1.5rem;
+    margin: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+
+  .alert-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+
+  .alert-message {
+    font-size: 1rem;
+  }
+
+  .alert-button {
+    padding: 0.6rem 2rem;
+    font-size: 1rem;
+  }
+}
