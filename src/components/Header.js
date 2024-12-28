@@ -82,7 +82,7 @@ const Header = () => {
       setError(null);
 
       const response = await fetch(
-        "http://https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/accounts/login/",
+        "https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/accounts/login/",
         {
           method: "POST",
           headers: {

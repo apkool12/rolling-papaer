@@ -91,7 +91,7 @@ export const WriteModal = ({ isOpen, onClose }) => {
       };
 
       const response = await axios.post(
-        "http://https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/",
+        "https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/",
         submitData,
         config
       );
@@ -248,7 +248,7 @@ export const ReadModal = ({ isOpen, onClose }) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "http://https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/"
+        "https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/"
       );
       const filteredLetters = response.data.filter(
         (letter) => letter.recipient === userNickname || letter.is_anonymous
@@ -323,7 +323,7 @@ export const ReadModal = ({ isOpen, onClose }) => {
   const handleDeleteLetter = async (letterId) => {
     try {
       await axios.delete(
-        `http://https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/${letterId}/`
+        `https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/${letterId}/`
       );
       setAlert({
         isOpen: true,

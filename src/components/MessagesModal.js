@@ -90,8 +90,8 @@ const MessagesModal = ({ isOpen, onClose, type, userNickname }) => {
       setLoading(true);
       const endpoint =
         type === "sent"
-          ? `http://localhost:8000/api/letters/sent_messages/?author=${userNickname}`
-          : `http://localhost:8000/api/letters/notifications/?recipient=${userNickname}`;
+          ? `https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/sent_messages/?author=${userNickname}`
+          : `https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/notifications/?recipient=${userNickname}`;
       const response = await axios.get(endpoint);
       setMessages(response.data);
     } catch (err) {
@@ -110,7 +110,9 @@ const MessagesModal = ({ isOpen, onClose, type, userNickname }) => {
 
   const handleDelete = async (messageId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/letters/${messageId}/`);
+      await axios.delete(
+        `https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/${messageId}/`
+      );
       await fetchMessages();
     } catch (err) {
       console.error("Error deleting message:", err);
