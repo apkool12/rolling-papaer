@@ -1,62 +1,100 @@
-// AdminPage.js
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import axios from "axios";
+import CustomAlert from "./CustomAlert";
 import "./AdminPage.css";
 
 const AdminPage = () => {
-  const [targetName, setTargetName] = useState("");
-  const [currentTargetName, setCurrentTargetName] = useState("");
-  const [message, setMessage] = useState("");
+  const [announcement, setAnnouncement] = useState("");
+  const [recipients, setRecipients] = useState("");
+  const [alertConfig, setAlertConfig] = useState({
+    isOpen: false,
+    message: "",
+    type: "info",
+  });
 
-  useEffect(() => {
-    fetch("/api/target-name")
-      .then((res) => res.json())
-      .then((data) => setCurrentTargetName(data.name))
-      .catch(() => setMessage("Failed to load current target name"));
-  }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSave = async () => {
     try {
-      const response = await fetch("/api/target-name", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: targetName }),
+      const recipientList = recipients.split(",").map((r) => r.trim());
+
+      await Promise.all(
+        recipientList.map((recipient) =>
+          axios.post("http://localhost:8000/api/letters/", {
+            author: "관리자",
+            content: announcement,
+            recipient: recipient,
+            is_anonymous: false,
+            is_read: false,
+          })
+        )
+      );
+
+      setAlertConfig({
+        isOpen: true,
+        message: "공지가 성공적으로 전송되었습니다.",
+        type: "success",
       });
-      if (response.ok) {
-        setMessage("Target name updated successfully!");
-        setCurrentTargetName(targetName);
-        setTargetName("");
-      } else {
-        setMessage("Failed to update target name");
-      }
+      setAnnouncement("");
+      setRecipients("");
     } catch (error) {
-      setMessage("Error updating target name");
+      setAlertConfig({
+        isOpen: true,
+        message: "공지 전송에 실패했습니다.",
+        type: "info",
+      });
     }
   };
 
   return (
     <div className="admin-container">
-      <h1>관리자 페이지</h1>
-      <div className="current-name">
-        <h2>현재 대상자 이름</h2>
-        <p>{currentTargetName || "현재 대상 없음"}</p>
+      <div className="admin-aurora" />
+
+      <div className="admin-content">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="admin-form-container"
+        >
+          <h1 className="admin-title">공지사항 관리</h1>
+
+          <form onSubmit={handleSubmit} className="admin-form">
+            <div className="admin-form-group">
+              <label className="admin-label">수신자 (쉼표로 구분)</label>
+              <input
+                value={recipients}
+                onChange={(e) => setRecipients(e.target.value)}
+                placeholder="user1, user2, user3"
+                className="admin-input"
+                required
+              />
+            </div>
+
+            <div className="admin-form-group">
+              <label className="admin-label">공지내용</label>
+              <textarea
+                value={announcement}
+                onChange={(e) => setAnnouncement(e.target.value)}
+                className="admin-textarea"
+                placeholder="공지내용을 입력하세요..."
+                required
+              />
+            </div>
+
+            <button type="submit" className="admin-submit-button">
+              공지 보내기
+            </button>
+          </form>
+        </motion.div>
       </div>
-      <div className="input-group">
-        <label htmlFor="targetName" className="input-label">
-          화면에 띄울 이름을 설정하세요
-        </label>
-        <input
-          type="text"
-          id="targetName"
-          value={targetName}
-          onChange={(e) => setTargetName(e.target.value)}
-          className="input-field"
-          placeholder="Enter target name"
-        />
-        <button onClick={handleSave} className="save-button">
-          저장
-        </button>
-      </div>
-      {message && <div className="message">{message}</div>}
+
+      <CustomAlert
+        isOpen={alertConfig.isOpen}
+        message={alertConfig.message}
+        type={alertConfig.type}
+        onClose={() => setAlertConfig({ ...alertConfig, isOpen: false })}
+      />
     </div>
   );
 };

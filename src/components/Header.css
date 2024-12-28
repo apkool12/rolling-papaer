@@ -1,11 +1,15 @@
 .header {
-  background: linear-gradient(to right, rgba(22, 51, 83, 0.95), rgba(22, 22, 49, 0.95));
+  background: linear-gradient(
+    to right,
+    rgba(22, 51, 83, 0.95),
+    rgba(22, 22, 49, 0.95)
+  );
   padding: 0.5rem 0;
   position: sticky;
   top: 0;
   z-index: 40;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  height: 70px;
+  height: 50px;
 }
 
 .header-container {
@@ -30,8 +34,7 @@
 }
 
 .logo:hover {
-  text-shadow: 
-    0 0 15px rgba(255, 255, 255, 0.4),
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.4),
     0 0 25px rgba(156, 231, 255, 0.3);
 }
 
@@ -81,13 +84,18 @@
 }
 
 .auth-button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
   transition: 0.5s;
 }
 
@@ -116,7 +124,7 @@
 .user-name {
   font-family: "Pen";
   white-space: nowrap;
-  color: #E5E7EB;
+  color: #e5e7eb;
   font-size: 1rem;
   opacity: 0;
   animation: fadeIn 0.5s ease forwards;
@@ -125,10 +133,9 @@
 }
 
 .user-name::after {
-  content: '❄';
+  content: "❄";
   position: absolute;
-  right: -1.4rem;
-  top: 50%;
+  right: -1.7rem;
   transform: translateY(-50%);
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.6);
@@ -152,7 +159,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   transform: translateY(-4%);
-  color: #E5E7EB;
+  color: #e5e7eb;
   font-size: 16px;
   padding: 0;
 }
@@ -166,7 +173,7 @@
 
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + 1.5rem); 
+  top: calc(100% + 1.5rem);
   right: -8rem;
   background: rgba(252, 252, 252, 0.1);
   backdrop-filter: blur(5px);
@@ -217,8 +224,12 @@
 }
 
 @keyframes snowflakeRotate {
-  0% { transform: translateY(-50%) rotate(0deg); }
-  100% { transform: translateY(-50%) rotate(360deg); }
+  0% {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-50%) rotate(360deg);
+  }
 }
 
 @keyframes slideInLeft {
@@ -233,8 +244,12 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 640px) {
@@ -261,12 +276,12 @@
     height: 28px;
     font-size: 1rem;
   }
-  
+
   .dropdown-menu {
     min-width: 180px;
-    right: -1rem; 
+    right: -1rem;
   }
-  
+
   .dropdown-item {
     padding: 0.6rem 0.8rem;
     font-size: 0.9rem;

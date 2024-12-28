@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
+import CustomAlert from "./CustomAlert";
 import "./RollingPaperModal.css";
+import html2canvas from "html2canvas";
 
-// WriteModal 컴포넌트 (편지 작성)
 export const WriteModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     isAnonymous: true,
@@ -11,9 +12,26 @@ export const WriteModal = ({ isOpen, onClose }) => {
     recipient: "",
   });
 
-  const recipients = ["우은식", "이정민", "한승원", "원동우", "김정현", "박주원"];
-  const [userNickname, setUserNickname] = useState(localStorage.getItem("userNickname"));
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
+  const [alert, setAlert] = useState({
+    isOpen: false,
+    message: "",
+    type: "info",
+  });
+
+  const recipients = [
+    "우은식",
+    "이정민",
+    "한승원",
+    "원동우",
+    "김정현",
+    "박주원",
+  ];
+  const [userNickname, setUserNickname] = useState(
+    localStorage.getItem("userNickname")
+  );
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn")
+  );
 
   useEffect(() => {
     const storedNickname = localStorage.getItem("userNickname");
@@ -26,21 +44,33 @@ export const WriteModal = ({ isOpen, onClose }) => {
     e.preventDefault();
 
     if (!formData.recipient) {
-      alert("수신인을 선택해주세요.");
+      setAlert({
+        isOpen: true,
+        message: "수신인을 선택해주세요.",
+        type: "info",
+      });
       return;
     }
 
     if (!formData.content) {
-      alert("내용을 입력해주세요.");
+      setAlert({
+        isOpen: true,
+        message: "내용을 입력해주세요.",
+        type: "info",
+      });
       return;
     }
 
     let author;
     if (formData.isAnonymous) {
-      author = "익명"; // 익명으로 보낼 때는 "익명" 표시
+      author = "익명";
     } else {
       if (!isLoggedIn || !userNickname) {
-        alert("로그인이 필요합니다.");
+        setAlert({
+          isOpen: true,
+          message: "로그인이 필요합니다.",
+          type: "info",
+        });
         return;
       }
       author = userNickname;
@@ -56,8 +86,8 @@ export const WriteModal = ({ isOpen, onClose }) => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'application/json',
-        }
+          "Content-Type": "application/json",
+        },
       };
 
       const response = await axios.post(
@@ -67,8 +97,11 @@ export const WriteModal = ({ isOpen, onClose }) => {
       );
 
       console.log("Form submitted:", response.data);
-      alert("편지가 성공적으로 전송되었습니다!");
-      onClose();
+      setAlert({
+        isOpen: true,
+        message: "편지가 성공적으로 전송되었습니다!",
+        type: "success",
+      });
 
       setFormData({
         isAnonymous: true,
@@ -76,17 +109,24 @@ export const WriteModal = ({ isOpen, onClose }) => {
         recipient: "",
       });
     } catch (error) {
-      console.error("Error submitting form:", error.response?.data || error.message);
+      console.error(
+        "Error submitting form:",
+        error.response?.data || error.message
+      );
       let errorMessage = "편지 전송 중 오류가 발생했습니다.";
 
       if (error.response?.data) {
         const serverErrors = error.response.data;
         errorMessage = Object.entries(serverErrors)
-          .map(([field, errors]) => `${field}: ${errors.join(', ')}`)
-          .join('\n');
+          .map(([field, errors]) => `${field}: ${errors.join(", ")}`)
+          .join("\n");
       }
 
-      alert(errorMessage);
+      setAlert({
+        isOpen: true,
+        message: errorMessage,
+        type: "info",
+      });
     }
   };
 
@@ -105,6 +145,12 @@ export const WriteModal = ({ isOpen, onClose }) => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
           >
+            <CustomAlert
+              isOpen={alert.isOpen}
+              message={alert.message}
+              type={alert.type}
+              onClose={() => setAlert({ ...alert, isOpen: false })}
+            />
             <button className="card-modal-close" onClick={onClose}>
               ×
             </button>
@@ -115,17 +161,25 @@ export const WriteModal = ({ isOpen, onClose }) => {
                 <div className="author-type-container">
                   <button
                     type="button"
-                    className={`author-type-button ${formData.isAnonymous ? "active" : ""}`}
-                    onClick={() => setFormData({ ...formData, isAnonymous: true })}
+                    className={`author-type-button ${
+                      formData.isAnonymous ? "active" : ""
+                    }`}
+                    onClick={() =>
+                      setFormData({ ...formData, isAnonymous: true })
+                    }
                   >
                     익명
                   </button>
                   <button
                     type="button"
-                    className={`author-type-button ${!formData.isAnonymous ? "active" : ""}`}
-                    onClick={() => setFormData({ ...formData, isAnonymous: false })}
+                    className={`author-type-button ${
+                      !formData.isAnonymous ? "active" : ""
+                    }`}
+                    onClick={() =>
+                      setFormData({ ...formData, isAnonymous: false })
+                    }
                   >
-                    이름
+                    본명
                   </button>
                 </div>
               </div>
@@ -134,7 +188,9 @@ export const WriteModal = ({ isOpen, onClose }) => {
                 <select
                   className="form-input"
                   value={formData.recipient}
-                  onChange={(e) => setFormData({ ...formData, recipient: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, recipient: e.target.value })
+                  }
                 >
                   <option value="" disabled>
                     편지를 보낼 대상을 선택하세요
@@ -151,7 +207,9 @@ export const WriteModal = ({ isOpen, onClose }) => {
                 <textarea
                   className="form-input form-textarea"
                   value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, content: e.target.value })
+                  }
                   placeholder="2024년 힘차게도 달린 우리들 수고많았다"
                 />
               </div>
@@ -167,24 +225,32 @@ export const WriteModal = ({ isOpen, onClose }) => {
 };
 
 export const ReadModal = ({ isOpen, onClose }) => {
+  const letterRef = useRef(null);
   const [selectedLetter, setSelectedLetter] = useState(null);
   const [letters, setLetters] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [userNickname, setUserNickname] = useState(localStorage.getItem("userNickname"));
+  const [userNickname, setUserNickname] = useState(
+    localStorage.getItem("userNickname")
+  );
+  const [alert, setAlert] = useState({
+    isOpen: false,
+    message: "",
+    type: "info",
+  });
 
   useEffect(() => {
     const storedNickname = localStorage.getItem("userNickname");
     setUserNickname(storedNickname);
   }, []);
 
-  // useCallback을 사용하여 fetchLetters를 memoize
   const fetchLetters = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.get("http://localhost:8000/api/letters/");
-      // 수신자별로 필터링: 본인이 수신자인 편지만 보여주기
-      const filteredLetters = response.data.filter(letter => letter.recipient === userNickname || letter.is_anonymous);
+      const filteredLetters = response.data.filter(
+        (letter) => letter.recipient === userNickname || letter.is_anonymous
+      );
       setLetters(filteredLetters);
       setError(null);
     } catch (error) {
@@ -193,26 +259,84 @@ export const ReadModal = ({ isOpen, onClose }) => {
     } finally {
       setLoading(false);
     }
-  }, [userNickname]); // userNickname이 변경될 때마다 재실행
+  }, [userNickname]);
 
   useEffect(() => {
     if (isOpen) {
-      fetchLetters(); // 수신자에 맞는 편지를 불러오기
+      fetchLetters();
     }
-  }, [isOpen, fetchLetters]); // isOpen 또는 fetchLetters가 변경될 때마다 실행
+  }, [isOpen, fetchLetters]);
 
   const closeLetterDetail = () => setSelectedLetter(null);
 
-  // 편지 삭제 핸들러
+  const handleSaveImage = async () => {
+    if (!letterRef.current) return;
+
+    try {
+      setAlert({
+        isOpen: true,
+        message: "편지를 저장하는 중입니다...",
+        type: "info",
+      });
+
+      const canvas = await html2canvas(letterRef.current, {
+        backgroundColor: "white",
+        scale: 2,
+        logging: false,
+        useCORS: true,
+      });
+
+      canvas.toBlob(
+        (blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${new Date().toISOString().slice(0, 10)}일 ${
+            selectedLetter.author
+          }님에게 온 편지.png`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+
+          setAlert({
+            isOpen: true,
+            message: "편지가 성공적으로 저장되었습니다!",
+            type: "success",
+          });
+        },
+        "image/png",
+        1.0
+      );
+    } catch (error) {
+      console.error("Error saving letter:", error);
+      setAlert({
+        isOpen: true,
+        message: "편지 저장에 실패했습니다.",
+        type: "error",
+      });
+    }
+  };
+
   const handleDeleteLetter = async (letterId) => {
     try {
       await axios.delete(`http://localhost:8000/api/letters/${letterId}/`);
-      alert("편지가 삭제되었습니다.");
-      setLetters((prevLetters) => prevLetters.filter((letter) => letter.id !== letterId));
-      setSelectedLetter(null); // 삭제 후 상세 보기 창 닫기
+      setAlert({
+        isOpen: true,
+        message: "편지가 삭제되었습니다.",
+        type: "success",
+      });
+      setLetters((prevLetters) =>
+        prevLetters.filter((letter) => letter.id !== letterId)
+      );
+      setSelectedLetter(null);
     } catch (error) {
       console.error("Error deleting letter:", error);
-      alert("편지 삭제에 실패했습니다.");
+      setAlert({
+        isOpen: true,
+        message: "편지 삭제에 실패했습니다.",
+        type: "info",
+      });
     }
   };
 
@@ -231,6 +355,12 @@ export const ReadModal = ({ isOpen, onClose }) => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
           >
+            <CustomAlert
+              isOpen={alert.isOpen}
+              message={alert.message}
+              type={alert.type}
+              onClose={() => setAlert({ ...alert, isOpen: false })}
+            />
             <button className="card-modal-close" onClick={onClose}>
               ×
             </button>
@@ -238,13 +368,9 @@ export const ReadModal = ({ isOpen, onClose }) => {
 
             <AnimatePresence mode="wait">
               {loading ? (
-                <div style={{ color: 'white', textAlign: 'center', padding: '2rem' }}>
-                  편지를 불러오는 중...
-                </div>
+                <div className="loading-message">편지를 불러오는 중...</div>
               ) : error ? (
-                <div style={{ color: 'white', textAlign: 'center', padding: '2rem' }}>
-                  {error}
-                </div>
+                <div className="error-message">{error}</div>
               ) : selectedLetter ? (
                 <motion.div
                   className="letter-detail"
@@ -256,23 +382,41 @@ export const ReadModal = ({ isOpen, onClose }) => {
                   <button className="back-button" onClick={closeLetterDetail}>
                     ← 목록으로
                   </button>
-                  <div className="letter-paper">
-                    <div className="letter-paper-header">
-                      From. {selectedLetter.author}
+                  <div className="letter-content-wrapper" ref={letterRef}>
+                    <div className="letter-paper">
+                      <div className="letter-paper-header">
+                        From. {selectedLetter.author}
+                      </div>
+                      <div className="letter-paper-content">
+                        {selectedLetter.content}
+                      </div>
                     </div>
-                    <div className="letter-paper-content">
-                      {selectedLetter.content}
+                  </div>
+                  <div className="letter-footer">
+                    <div className="letter-date">
+                      {new Date(selectedLetter.created_at).toLocaleDateString(
+                        "ko-KR",
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        }
+                      )}
                     </div>
-                    <div className="letter-paper-footer" style={{ marginTop: '1rem', textAlign: 'right', color: '#666' }}>
-                      {new Date(selectedLetter.created_at).toLocaleDateString()}
+                    <div className="letter-buttons">
+                      <button
+                        className="letter-action-btn save-btn"
+                        onClick={handleSaveImage}
+                      >
+                        저장하기
+                      </button>
+                      <button
+                        className="letter-action-btn delete-btn"
+                        onClick={() => handleDeleteLetter(selectedLetter.id)}
+                      >
+                        삭제하기
+                      </button>
                     </div>
-                    {/* 편지 삭제 버튼 추가 */}
-                    <button
-                      className="delete-button"
-                      onClick={() => handleDeleteLetter(selectedLetter.id)}
-                    >
-                      삭제
-                    </button>
                   </div>
                 </motion.div>
               ) : (

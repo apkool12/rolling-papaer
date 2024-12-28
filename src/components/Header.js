@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import AuthModal from "./AuthModal";
+import MessagesModal from "./MessagesModal";
 import "./Header.css";
 
 const Header = () => {
@@ -14,11 +15,12 @@ const Header = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [error, setError] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [modalType, setModalType] = useState(null);
 
   useEffect(() => {
     const storedLoginStatus = localStorage.getItem("isLoggedIn");
     const storedNickname = localStorage.getItem("userNickname");
-    
+
     if (storedLoginStatus === "true" && storedNickname) {
       setIsLoggedIn(true);
       setUser({ nickname: storedNickname });
@@ -27,13 +29,13 @@ const Header = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      const dropdown = document.querySelector('.dropdown-container');
+      const dropdown = document.querySelector(".dropdown-container");
       if (dropdown && !dropdown.contains(event.target)) {
         setIsDropdownOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLoginSuccess = (userData) => {
@@ -41,13 +43,22 @@ const Header = () => {
     setUser({ nickname: userData.nickname });
     setIsLoggingIn(false);
     setError(null);
-    
+
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("userNickname", userData.nickname);
   };
 
+  const handleMenuClick = (type) => {
+    setIsDropdownOpen(false);
+    setModalType(type);
+  };
+
   const handleModalClose = () => {
     setModalConfig({ ...modalConfig, isOpen: false });
+  };
+
+  const handleCloseModal = () => {
+    setModalType(null);
   };
 
   const navigate = useNavigate();
@@ -105,7 +116,7 @@ const Header = () => {
       await new Promise((resolve) => setTimeout(resolve, 300));
       setIsLoggedIn(false);
       setUser(null);
-      
+
       // 로그아웃 시 로컬스토리지 데이터 삭제
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("userNickname");
@@ -122,53 +133,61 @@ const Header = () => {
         </Link>
 
         <nav className="nav-menu">
-        {isLoggedIn ? (
-          <div className="auth-status">
-            <div className="user-profile">
-              <span className="user-name">{user?.nickname}</span>
-              <div className="dropdown-container">
-                <button 
-                  className="dropdown-toggle"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  aria-label="메뉴"
-                >
-                  메뉴
-                </button>
-                
-                <AnimatePresence>
-                  {isDropdownOpen && (
-                    <motion.div 
-                      className="dropdown-menu"
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <button className="dropdown-item">
-                        <span className="icon">💌</span>
-                        내가 보낸 메시지
-                      </button>
-                      <button className="dropdown-item">
-                        <span className="icon">🔔</span>
-                        알림
-                      </button>
-                      <div className="dropdown-divider" />
-                      <button className="dropdown-item" 
-                      onClick={() => { handleLogout();
-                          setIsDropdownOpen(false);
-                          handleHome();
-                        }}
+          {isLoggedIn ? (
+            <div className="auth-status">
+              <div className="user-profile">
+                <span className="user-name">{user?.nickname}</span>
+                <div className="dropdown-container">
+                  <button
+                    className="dropdown-toggle"
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    aria-label="메뉴"
+                  >
+                    메뉴
+                  </button>
+
+                  <AnimatePresence>
+                    {isDropdownOpen && (
+                      <motion.div
+                        className="dropdown-menu"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
                       >
-                        <span className="icon">🚪</span>
-                        로그아웃
-                      </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                        <button
+                          className="dropdown-item"
+                          onClick={() => handleMenuClick("sent")}
+                        >
+                          <span className="icon">💌</span>
+                          내가 보낸 메시지
+                        </button>
+                        <button
+                          className="dropdown-item"
+                          onClick={() => handleMenuClick("notifications")}
+                        >
+                          <span className="icon">🔔</span>
+                          알림
+                        </button>
+                        <div className="dropdown-divider" />
+                        <button
+                          className="dropdown-item"
+                          onClick={() => {
+                            handleLogout();
+                            setIsDropdownOpen(false);
+                            handleHome();
+                          }}
+                        >
+                          <span className="icon">🚪</span>
+                          로그아웃
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
-          </div>
-        ) : (
+          ) : (
             <div className="auth-buttons">
               <button
                 className="auth-button outline"
@@ -188,7 +207,16 @@ const Header = () => {
           )}
         </nav>
       </div>
-
+      <AnimatePresence>
+        {modalType && (
+          <MessagesModal
+            isOpen={!!modalType}
+            onClose={handleCloseModal}
+            type={modalType}
+            userNickname={user?.nickname}
+          />
+        )}
+      </AnimatePresence>
       {modalConfig.isOpen && (
         <AuthModal
           isLogin={modalConfig.isLogin}

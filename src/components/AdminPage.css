@@ -1,104 +1,141 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f5f7fa;
-}
-
 .admin-container {
-  font-family: "Pen";
-  max-width: 480px;
-  margin: 5% auto;
-  padding: 2.5rem;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  min-height: 100vh;
+  position: relative;
+  background: linear-gradient(135deg, #163353, #161631, #031022);
+  overflow: hidden;
+}
+
+.admin-aurora {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(100, 220, 255, 0.05) 0%,
+    rgba(156, 231, 255, 0.05) 25%,
+    rgba(205, 240, 255, 0.05) 50%,
+    rgba(156, 231, 255, 0.05) 75%,
+    rgba(100, 220, 255, 0.05) 100%
+  );
+  filter: blur(40px);
+  animation: adminAuroraFlow 15s infinite;
+  pointer-events: none;
+}
+
+.admin-content {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.admin-form-container {
+  width: 100%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .admin-title {
-  font-size: 1.75rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
-  color: #2d3748;
-  text-align: center;
-}
-
-.current-name-box {
-  padding: 1.5rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-}
-
-.current-name-title {
-  font-size: 1.125rem;
-  font-weight: 500;
-  margin-bottom: 0.75rem;
-  color: #4a5568;
-}
-
-.current-name {
-  color: #4a5568;
-}
-
-.input-group {
-  padding: 1.5rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-}
-
-.input-label {
-  display: block;
-  font-weight: 500;
-  color: #4a5568;
-  margin-bottom: 0.5rem;
-}
-
-.input-field {
-  font-family: "SSS";
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 0.925rem;
-  margin-bottom: 1.25rem;
-  transition: border-color 0.3s ease;
-}
-
-.input-field:focus {
-  outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-}
-
-.save-button {
-  font-family: "Pen";
-
-  display: block;
-  width: 100%;
-  background-color: #6366f1;
+  font-family: SSS, sans-serif;
+  font-size: 2rem;
   color: white;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.925rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.save-button:hover {
-  background-color: #4f46e5;
-}
-
-.message {
-  margin-top: 1.5rem;
-  font-size: 0.875rem;
-  color: #4a5568;
   text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.admin-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-label {
+  font-family: Pen, sans-serif;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+}
+
+.admin-input,
+.admin-textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: white;
+  font-family: Pen, sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.admin-textarea {
+  height: 200px;
+  resize: none;
+}
+
+.admin-input:focus,
+.admin-textarea:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.admin-submit-button {
+  font-family: Pen, sans-serif;
+  font-size: 1.1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.admin-submit-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+@keyframes adminAuroraFlow {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-2%) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-form-container {
+    padding: 1.5rem;
+  }
+
+  .admin-title {
+    font-size: 1.5rem;
+  }
+
+  .admin-input,
+  .admin-textarea {
+    font-size: 0.9rem;
+  }
 }
