@@ -63,7 +63,7 @@ const AuthModal = ({ isLogin, onClose, onSubmit, onLoginSuccess }) => {
       try {
         if (isLogin) {
           const response = await axios.post(
-            "http://https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/accounts/login/",
+            "https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/accounts/login/",
             {
               email: formData.nickname,
               password: formData.password,
@@ -81,7 +81,7 @@ const AuthModal = ({ isLogin, onClose, onSubmit, onLoginSuccess }) => {
           localStorage.setItem("userNickname", formData.nickname);
         } else {
           const response = await axios.post(
-            "http://https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/accounts/signup/",
+            "https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/accounts/signup/",
             {
               email: formData.nickname,
               password: formData.password,

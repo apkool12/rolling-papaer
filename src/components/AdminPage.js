@@ -22,7 +22,7 @@ const AdminPage = () => {
       await Promise.all(
         recipientList.map((recipient) =>
           axios.post(
-            "http://https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/",
+            "https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/",
             {
               author: "관리자",
               content: announcement,

@@ -12,9 +12,12 @@ const SentMessages = () => {
     const fetchSentMessages = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:8000/api/letters/sent", {
-          params: { author: userNickname },
-        });
+        const response = await axios.get(
+          "https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/sent",
+          {
+            params: { author: userNickname },
+          }
+        );
         setSentMessages(response.data);
       } catch (err) {
         setError("메시지를 불러오는 중 오류가 발생했습니다.");
@@ -36,9 +39,13 @@ const SentMessages = () => {
         <ul>
           {sentMessages.map((message) => (
             <li key={message.id} className="sent-message-item">
-              <p><strong>To:</strong> {message.recipient}</p>
+              <p>
+                <strong>To:</strong> {message.recipient}
+              </p>
               <p>{message.content}</p>
-              <p className="sent-date">{new Date(message.created_at).toLocaleString()}</p>
+              <p className="sent-date">
+                {new Date(message.created_at).toLocaleString()}
+              </p>
             </li>
           ))}
         </ul>
