@@ -91,7 +91,7 @@ export const WriteModal = ({ isOpen, onClose }) => {
       };
 
       const response = await axios.post(
-        "http://localhost:8000/api/letters/",
+        "http://https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/",
         submitData,
         config
       );
@@ -247,7 +247,9 @@ export const ReadModal = ({ isOpen, onClose }) => {
   const fetchLetters = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:8000/api/letters/");
+      const response = await axios.get(
+        "http://https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/"
+      );
       const filteredLetters = response.data.filter(
         (letter) => letter.recipient === userNickname || letter.is_anonymous
       );
@@ -320,7 +322,9 @@ export const ReadModal = ({ isOpen, onClose }) => {
 
   const handleDeleteLetter = async (letterId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/letters/${letterId}/`);
+      await axios.delete(
+        `http://https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/letters/${letterId}/`
+      );
       setAlert({
         isOpen: true,
         message: "편지가 삭제되었습니다.",

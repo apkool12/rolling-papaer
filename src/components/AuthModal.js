@@ -63,7 +63,7 @@ const AuthModal = ({ isLogin, onClose, onSubmit, onLoginSuccess }) => {
       try {
         if (isLogin) {
           const response = await axios.post(
-            "http://localhost:8000/api/accounts/login/",
+            "http://https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/accounts/login/",
             {
               email: formData.nickname,
               password: formData.password,
@@ -81,7 +81,7 @@ const AuthModal = ({ isLogin, onClose, onSubmit, onLoginSuccess }) => {
           localStorage.setItem("userNickname", formData.nickname);
         } else {
           const response = await axios.post(
-            "http://localhost:8000/api/accounts/signup/",
+            "http://https://port-0-rolling-papaer-lyo9x8ghce54051e.sel5.cloudtype.app/api/accounts/signup/",
             {
               email: formData.nickname,
               password: formData.password,
@@ -100,7 +100,7 @@ const AuthModal = ({ isLogin, onClose, onSubmit, onLoginSuccess }) => {
           localStorage.setItem("userNickname", formData.nickname);
         }
       } catch (error) {
-        alert(error.response?.data || error.message)
+        alert(error.response?.data || error.message);
         console.error(error.response?.data || error.message);
         setErrors({ general: "오류가 발생했습니다. 다시 시도해주세요." });
       }
