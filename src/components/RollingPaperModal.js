@@ -20,7 +20,7 @@ export const WriteModal = ({ isOpen, onClose }) => {
 
   const recipients = [
     "우은식",
-    "이정민",
+    "이채혁",
     "한승원",
     "원동우",
     "김정현",
