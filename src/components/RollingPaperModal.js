@@ -25,6 +25,7 @@ export const WriteModal = ({ isOpen, onClose }) => {
     "원동우",
     "김정현",
     "박주원",
+    "이정민",
   ];
   
   const [userNickname, setUserNickname] = useState(
