@@ -88,16 +88,18 @@ export const WriteModal = ({ isOpen, onClose }) => {
     }
 
     const submitData = {
-      author: author,
+      author: formData.isAnonymous ? "익명" : userNickname,
       content: formData.content.trim(),
       recipient: formData.recipient,
       is_anonymous: formData.isAnonymous,
+      real_author: userNickname
     };
 
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         },
       };
 
