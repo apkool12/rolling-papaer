@@ -1,4 +1,4 @@
-.card-modal-overlay {
+.card-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +12,7 @@
   z-index: 1000;
 }
 
-.card-modal-container {
+.card-container {
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.1),
@@ -27,7 +27,7 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.card-modal-close {
+.card-close {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -39,12 +39,12 @@
   transition: all 0.3s ease;
 }
 
-.card-modal-close:hover {
+.card-close:hover {
   color: white;
   transform: rotate(90deg);
 }
 
-.card-modal-title {
+.card-title {
   font-family: SSS;
   color: white;
   text-align: center;
@@ -55,7 +55,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-.card-modal-content {
+.card-content {
   color: white;
   font-family: Pen;
 }
@@ -66,18 +66,19 @@
   gap: 1rem;
 }
 
-.form-group {
+.Roll-form-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.form-label {
+.Roll-form-label {
+  font-family: "Pen";
   color: rgba(255, 255, 255, 0.9);
   font-size: 1.1rem;
 }
 
-.form-input {
+.Roll-form-input {
   padding: 0.8rem;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -87,13 +88,13 @@
   font-size: 1rem;
 }
 
-.form-textarea {
+.Roll-form-textarea {
   min-height: 150px;
   width: 95%;
   resize: vertical;
 }
 
-.form-submit {
+.Roll-form-submit {
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 8px;
@@ -106,7 +107,7 @@
   transition: all 0.3s ease;
 }
 
-.form-submit:hover {
+.Roll-form-submit:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
@@ -304,7 +305,7 @@
   color: #666;
 }
 
-select.form-input {
+select.Roll-form-input {
   padding: 0.8rem;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -314,19 +315,19 @@ select.form-input {
   font-size: 1rem;
   cursor: pointer;
 }
-select.form-input option {
+select.Roll-form-input option {
   background: rgba(16, 14, 37, 0.9);
   border-radius: 15px;
   color: white;
 }
 
 @media (max-width: 768px) {
-  .card-modal-container {
+  .card-container {
     width: 95%;
     padding: 1.5rem;
   }
 
-  .card-modal-title {
+  .card-title {
     font-size: 1.5rem;
   }
 }

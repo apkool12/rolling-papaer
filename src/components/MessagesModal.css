@@ -1,4 +1,4 @@
-.messages-modal-overlay {
+.messages-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.7);
@@ -9,7 +9,7 @@
   justify-content: center;
 }
 
-.messages-modal-container {
+.messages-container {
   position: relative;
   width: 90%;
   max-width: 28rem;
@@ -29,7 +29,7 @@
   flex-direction: column;
 }
 
-.messages-modal-aurora {
+.messages-aurora {
   position: absolute;
   top: 0;
   left: 0;
@@ -48,7 +48,7 @@
   pointer-events: none;
 }
 
-.messages-modal-close {
+.messages-close {
   position: absolute;
   top: 1.25rem;
   right: 1.25rem;
@@ -68,13 +68,13 @@
   z-index: 2;
 }
 
-.messages-modal-close:hover {
+.messages-close:hover {
   color: white;
   background: rgba(255, 255, 255, 0.1);
   transform: rotate(90deg);
 }
 
-.messages-modal-title {
+.messages-title {
   font-family: "SSS", sans-serif;
   font-size: 1.5rem;
   color: white;
@@ -86,7 +86,7 @@
   z-index: 1;
 }
 
-.messages-modal-title::after {
+.messages-title::after {
   content: "";
   position: absolute;
   bottom: -0.5rem;
@@ -272,13 +272,13 @@
 }
 
 @media (max-width: 640px) {
-  .messages-modal-container {
+  .messages-container {
     width: 95%;
     padding: 1.5rem;
     margin: 1rem;
   }
 
-  .messages-modal-title {
+  .messages-title {
     font-size: 1.25rem;
   }
 
@@ -288,13 +288,13 @@
 }
 
 @media screen and (max-width: 768px) {
-  .messages-modal-container {
+  .messages-container {
     width: 95%;
     margin: 1rem;
     padding: 1rem;
   }
 
-  .messages-modal-title {
+  .messages-title {
     font-size: 1.2rem;
   }
 

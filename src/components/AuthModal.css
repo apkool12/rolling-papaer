@@ -11,20 +11,17 @@
 }
 
 .modal-content {
-  background: linear-gradient(
-    135deg,
-    rgba(38, 19, 85, 0.4),
-    rgba(33, 29, 41, 0.863)
-  );
-  padding: 2.5rem;
-  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(38, 19, 85, 0.4), rgba(33, 29, 41, 0.863));
+  padding: 2rem 2rem; /* 패딩 감소 */
+  border-radius: 24px;
   position: relative;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   animation: modalSlideIn 0.4s ease;
-  max-width: 420px;
-  width: 100%;
+  width: 90%; /* 비율로 변경 */
+  max-width: 400px; /* 최대 너비 감소 */
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
+  box-sizing: border-box; /* 박스 사이징 추가 */
 }
 
 .modal-header {
@@ -50,13 +47,14 @@
 }
 
 .form-group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  width: 100%; /* 너비 명시 */
 }
 
 .form-label {
   display: block;
   font-family: "Pen";
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 0.5rem;
@@ -64,14 +62,16 @@
 
 .form-input {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1rem; /* 패딩 감소 */
   border: 1.5px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: 1rem;
   font-family: "Pen";
   transition: all 0.2s ease;
   background: rgba(255, 255, 255, 0.1);
   color: white;
+  height: 2.75rem; /* 높이 감소 */
+  box-sizing: border-box; /* 박스 사이징 추가 */
 }
 
 .form-input::placeholder {
@@ -85,11 +85,12 @@
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
 }
 
+
 .auth-button {
   width: 100%;
-  padding: 0.875rem;
+  height: 2.75rem; /* 높이 감소 */
   border: 1px solid rgba(255, 255, 255, 0.267);
-  border-radius: 12px;
+  border-radius: 14px;
   font-family: "Pen";
   font-size: 1rem;
   font-weight: 500;
@@ -97,48 +98,44 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box; /* 박스 사이징 추가 */
 }
 
 .auth-button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transition: 0.5s;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
 }
 
 .auth-button:hover::before {
-  left: 100%;
+    left: 100%;
 }
 
 .primary-button {
   background: rgba(255, 255, 255, 0.15);
   color: white;
-}
-
-.primary-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin-top: 0.5rem;
 }
 
 .secondary-button {
   background: transparent;
   color: rgba(255, 255, 255, 0.9);
-  margin-top: 0.75rem;
+  margin-top: 1rem;
 }
 
 .secondary-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
 }
 
 .close-button {
@@ -159,13 +156,13 @@
   background: rgba(255, 255, 255, 0.1);
   color: white;
 }
-
 .form-error {
-  color: #fca5a5;
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
-  font-family: "Pen";
+    color: #FCA5A5;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    font-family: "Pen";
 }
+
 
 @keyframes fadeIn {
   from {
@@ -189,29 +186,28 @@
 
 @media (max-width: 480px) {
   .modal-content {
-    padding: 1.5rem;
-    margin: 1rem;
-    max-width: calc(100% - 2rem);
+      padding: 1.5rem;
+      width: calc(100% - 2rem);
+      margin: 1rem;
   }
 
   .modal-title {
-    font-size: 1.5rem;
+      font-size: 1.75rem;
   }
 
   .modal-subtitle {
-    font-size: 1rem;
+      font-size: 1rem;
   }
 
   .form-input {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.9rem;
+      height: 2.5rem;
+      font-size: 0.95rem;
   }
 
   .auth-button {
-    padding: 0.75rem;
-    font-size: 0.9rem;
+      height: 2.5rem;
+      font-size: 0.95rem;
   }
-
   .close-button {
     top: 0.75rem;
     right: 0.75rem;

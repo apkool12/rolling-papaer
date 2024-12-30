@@ -9,7 +9,7 @@ export const WriteModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     isAnonymous: true,
     content: "",
-    recipient: "",
+    recipient: "전체",
   });
 
   const [alert, setAlert] = useState({
@@ -26,6 +26,7 @@ export const WriteModal = ({ isOpen, onClose }) => {
     "김정현",
     "박주원",
   ];
+  
   const [userNickname, setUserNickname] = useState(
     localStorage.getItem("userNickname")
   );
@@ -40,10 +41,19 @@ export const WriteModal = ({ isOpen, onClose }) => {
     setIsLoggedIn(storedIsLoggedIn);
   }, []);
 
+  // 익명/본명 전환 시 수신인 자동 설정
+  const handleAuthorTypeChange = (isAnonymous) => {
+    setFormData({
+      ...formData,
+      isAnonymous: isAnonymous,
+      recipient: isAnonymous ? "전체" : "", // 익명일 때는 '전체'로, 본명일 때는 빈 값으로
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.recipient) {
+    if (!formData.isAnonymous && !formData.recipient) {
       setAlert({
         isOpen: true,
         message: "수신인을 선택해주세요.",
@@ -106,7 +116,7 @@ export const WriteModal = ({ isOpen, onClose }) => {
       setFormData({
         isAnonymous: true,
         content: "",
-        recipient: "",
+        recipient: "전체",
       });
     } catch (error) {
       console.error(
@@ -134,13 +144,13 @@ export const WriteModal = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="card-modal-overlay"
+          className="card-overlay"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="card-modal-container"
+            className="card-container"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
@@ -151,22 +161,20 @@ export const WriteModal = ({ isOpen, onClose }) => {
               type={alert.type}
               onClose={() => setAlert({ ...alert, isOpen: false })}
             />
-            <button className="card-modal-close" onClick={onClose}>
+            <button className="card-close" onClick={onClose}>
               ×
             </button>
-            <h2 className="card-modal-title">편지 쓰기</h2>
+            <h2 className="card-title">편지 쓰기</h2>
             <form className="write-form" onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label className="form-label">작성 방식</label>
+              <div className="Roll-form-group">
+                <label className="Roll-form-label">작성 방식</label>
                 <div className="author-type-container">
                   <button
                     type="button"
                     className={`author-type-button ${
                       formData.isAnonymous ? "active" : ""
                     }`}
-                    onClick={() =>
-                      setFormData({ ...formData, isAnonymous: true })
-                    }
+                    onClick={() => handleAuthorTypeChange(true)}
                   >
                     익명
                   </button>
@@ -175,37 +183,45 @@ export const WriteModal = ({ isOpen, onClose }) => {
                     className={`author-type-button ${
                       !formData.isAnonymous ? "active" : ""
                     }`}
-                    onClick={() =>
-                      setFormData({ ...formData, isAnonymous: false })
-                    }
+                    onClick={() => handleAuthorTypeChange(false)}
                   >
                     본명
                   </button>
                 </div>
               </div>
-              <div className="form-group">
-                <label className="form-label">받는 사람</label>
-                <select
-                  className="form-input"
-                  value={formData.recipient}
-                  onChange={(e) =>
-                    setFormData({ ...formData, recipient: e.target.value })
-                  }
-                >
-                  <option value="" disabled>
-                    편지를 보낼 대상을 선택하세요
-                  </option>
-                  {recipients.map((name, index) => (
-                    <option key={index} value={name}>
-                      {name}
+              <div className="Roll-form-group">
+                <label className="Roll-form-label">받는 사람</label>
+                {formData.isAnonymous ? (
+                  <select
+                    className="Roll-form-input"
+                    value="전체"
+                    disabled
+                  >
+                    <option value="전체">전체</option>
+                  </select>
+                ) : (
+                  <select
+                    className="Roll-form-input"
+                    value={formData.recipient}
+                    onChange={(e) =>
+                      setFormData({ ...formData, recipient: e.target.value })
+                    }
+                  >
+                    <option value="" disabled>
+                      편지를 보낼 대상을 선택하세요
                     </option>
-                  ))}
-                </select>
+                    {recipients.map((name, index) => (
+                      <option key={index} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                  </select>
+                )}
               </div>
-              <div className="form-group">
-                <label className="form-label">내용</label>
+              <div className="Roll-form-group">
+                <label className="Roll-form-label">내용</label>
                 <textarea
-                  className="form-input form-textarea"
+                  className="Roll-form-input Roll-form-textarea"
                   value={formData.content}
                   onChange={(e) =>
                     setFormData({ ...formData, content: e.target.value })
@@ -213,7 +229,7 @@ export const WriteModal = ({ isOpen, onClose }) => {
                   placeholder="2024년 힘차게도 달린 우리들 수고많았다"
                 />
               </div>
-              <button type="submit" className="form-submit">
+              <button type="submit" className="Roll-form-submit">
                 편지 보내기
               </button>
             </form>
@@ -348,13 +364,13 @@ export const ReadModal = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="card-modal-overlay"
+          className="card-overlay"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="card-modal-container"
+            className="card-container"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
@@ -365,10 +381,10 @@ export const ReadModal = ({ isOpen, onClose }) => {
               type={alert.type}
               onClose={() => setAlert({ ...alert, isOpen: false })}
             />
-            <button className="card-modal-close" onClick={onClose}>
+            <button className="card-close" onClick={onClose}>
               ×
             </button>
-            <h2 className="card-modal-title">편지 읽기</h2>
+            <h2 className="card-title">편지 읽기</h2>
 
             <AnimatePresence mode="wait">
               {loading ? (
